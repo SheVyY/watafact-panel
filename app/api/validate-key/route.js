@@ -24,6 +24,6 @@ export async function POST(request) {
         }
     } catch (error) {
         console.error('Unexpected error:', error);
-        return NextResponse.json({ valid: false, message: 'Server error' }, { status: 500 });
+        return NextResponse.json({ valid: false, message: 'Server error occurred' }, { status: 500 });
     }
 }
