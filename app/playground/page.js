@@ -47,7 +47,6 @@ export default function ApiPlaygroundPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-sm max-w-md mx-auto">
-                <h2 className="text-xl font-semibold mb-4 text-gray-800">API Key Validation</h2>
                 <div className="mb-4">
                     <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-2">
                         Enter your API Key

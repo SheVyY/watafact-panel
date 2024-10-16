@@ -18,7 +18,7 @@ export async function POST(request) {
         }
 
         if (data) {
-            return NextResponse.json({ valid: true }, { status: 200 });
+            return NextResponse.json({ valid: true, message: 'Valid API key' }, { status: 200 });
         } else {
             return NextResponse.json({ valid: false, message: 'Invalid API key' }, { status: 401 });
         }
