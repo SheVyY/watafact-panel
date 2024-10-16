@@ -1,14 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Notification from '../components/Notification';
 
 export default function ApiPlaygroundPage() {
     const [apiKey, setApiKey] = useState('');
     const [notification, setNotification] = useState(null);
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setNotification(null); // Clear any existing notification
         try {
             const response = await fetch('/api/validate-key', {
                 method: 'POST',
@@ -20,16 +23,19 @@ export default function ApiPlaygroundPage() {
 
             const result = await response.json();
 
-            if (response.ok && result.valid) {
-                setNotification({ type: 'success', message: 'Valid API key, /protected can be accessed' });
-                // Remove unused router
-                // router.push('/protected');
+            if (response.ok) {
+                if (result.valid) {
+                    setNotification({ type: 'success', message: 'Valid API key' });
+                    setTimeout(() => router.push('/protected'), 2000);
+                } else {
+                    setNotification({ type: 'error', message: result.message });
+                }
             } else {
-                setNotification({ type: 'error', message: result.message || 'Invalid API key' });
+                throw new Error('Error validating API key');
             }
         } catch (error) {
             console.error('Error validating API key:', error);
-            setNotification({ type: 'error', message: 'Error validating API key' });
+            setNotification({ type: 'error', message: 'An unexpected error occurred' });
         }
     };
 
