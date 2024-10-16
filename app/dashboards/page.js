@@ -7,26 +7,32 @@ import ApiKeysTable from '../components/ApiKeysTable';
 import ApiKeyDialog from '../components/ApiKeyDialog';
 import '../globals.css';
 import { fetchApiKeys, createApiKey, updateApiKey, deleteApiKey } from '../../lib/apiKeyOperations';
+import { useNotification } from '../hooks/useNotification';
 
 export default function DashboardPage() {
     const [apiKeys, setApiKeys] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedKey, setSelectedKey] = useState(null);
-    const [notification, setNotification] = useState(null);
+    const { notification, showNotification, closeNotification } = useNotification();
 
     useEffect(() => {
-        loadApiKeys();
+        async function loadKeys() {
+            try {
+                setIsLoading(true);
+                const keys = await fetchApiKeys();
+                console.log('Fetched keys in component:', keys);
+                setApiKeys(keys);
+            } catch (error) {
+                console.error('Failed to fetch API keys:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        loadKeys();
     }, []);
 
-    const loadApiKeys = async () => {
-        try {
-            const keys = await fetchApiKeys();
-            setApiKeys(keys);
-        } catch (error) {
-            console.error('Failed to load API keys:', error);
-            showNotification('error', 'Failed to load API keys');
-        }
-    };
+    console.log('Current apiKeys state:', apiKeys);
 
     const handleCreateKey = async (name, limit) => {
         try {
@@ -64,9 +70,8 @@ export default function DashboardPage() {
         }
     };
 
-    const showNotification = (type, message) => {
-        setNotification({ type, message });
-        setTimeout(() => setNotification(null), 3000);
+    const displayNotification = (type, message) => {
+        showNotification(type, message);
     };
 
     const closeDialog = () => {
@@ -96,15 +101,21 @@ export default function DashboardPage() {
                 >
                     Create New API Key
                 </button>
-                <ApiKeysTable
-                    apiKeys={apiKeys}
-                    onUpdateKey={openUpdateDialog}
-                    onDeleteKey={handleDeleteKey}
-                    onCopyKey={(key) => {
-                        navigator.clipboard.writeText(key);
-                        showNotification('success', 'API key copied to clipboard');
-                    }}
-                />
+                {isLoading ? (
+                    <p>Loading API keys...</p>
+                ) : apiKeys.length > 0 ? (
+                    <ApiKeysTable
+                        apiKeys={apiKeys}
+                        onUpdateKey={openUpdateDialog}
+                        onDeleteKey={handleDeleteKey}
+                        onCopyKey={(key) => {
+                            navigator.clipboard.writeText(key);
+                            showNotification('success', 'API key copied to clipboard');
+                        }}
+                    />
+                ) : (
+                    <p>No API keys found.</p>
+                )}
             </div>
 
             <ApiKeyDialog
@@ -120,7 +131,7 @@ export default function DashboardPage() {
                 <Notification
                     type={notification.type}
                     message={notification.message}
-                    onClose={() => setNotification(null)}
+                    onClose={closeNotification}
                 />
             )}
 

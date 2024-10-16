@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Notification from '../components/Notification';
 
-export default function ApiPlayground() {
+export default function ApiPlaygroundPage() {
     const [apiKey, setApiKey] = useState('');
     const [notification, setNotification] = useState(null);
 
