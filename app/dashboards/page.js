@@ -136,7 +136,7 @@ export default function DashboardPage() {
             )}
 
             <div className="mt-8 text-center">
-                <p className="text-gray-600">Have any questions, feedback or need support? We'd love to hear from you!</p>
+                <p className="text-gray-600">Have any questions, feedback or need support? We&apos;d love to hear from you!</p>
                 <button className="mt-4 bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700">
                     Contact us
                 </button>
