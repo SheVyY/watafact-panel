@@ -1,25 +1,18 @@
-'use client';
+'use client'; // This should be removed
 
-import { useState } from 'react';
+import { useState } from 'react'; // This import can be removed if not used
 import Sidebar from './components/Sidebar';
 import './globals.css'; // Add this line to import the global CSS
+import Layout from './components/Layout';
 
 export default function RootLayout({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  // Remove the unused state and setter
+  // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
     <html lang="en">
       <body>
-        <div className="flex">
-          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-          <main className={`flex-1 bg-gray-100 min-h-screen transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
-            {children}
-          </main>
-        </div>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

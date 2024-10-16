@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Notification from '../components/Notification';
 import Gradient from '../components/Gradient';
 import ApiKeysTable from '../components/ApiKeysTable';
@@ -14,7 +13,6 @@ export default function DashboardPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedKey, setSelectedKey] = useState(null);
     const [notification, setNotification] = useState(null);
-    const router = useRouter();
 
     useEffect(() => {
         loadApiKeys();

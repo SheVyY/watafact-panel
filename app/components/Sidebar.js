@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -14,19 +14,11 @@ const menuItems = [
     { name: 'Dashboards', href: '/dashboards', icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
 ];
 
-export default function Sidebar({ isOpen, toggleSidebar }) {
+export default function Sidebar() {
     const pathname = usePathname();
-    const [isOpenState, setIsOpenState] = useState(true);
-
-    const toggleSidebarState = () => setIsOpenState(!isOpenState);
 
     return (
-        <div className={`fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform ${isOpenState ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out flex flex-col h-full`}>
-            {/* Sidebar header */}
-            <div className="py-6 px-6">
-                <h1 className="text-xl font-bold">Watafact AI</h1>
-            </div>
-            
+        <div className="fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg flex flex-col h-full">
             {/* Sidebar content */}
             <div className="flex-grow overflow-y-auto px-6">
                 <nav className="mt-5 space-y-1">

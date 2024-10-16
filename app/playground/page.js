@@ -1,13 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Notification from '../components/Notification';
 
 export default function ApiPlayground() {
     const [apiKey, setApiKey] = useState('');
     const [notification, setNotification] = useState(null);
-    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +22,8 @@ export default function ApiPlayground() {
 
             if (response.ok && result.valid) {
                 setNotification({ type: 'success', message: 'Valid API key, /protected can be accessed' });
-                router.push('/protected');
+                // Remove unused router
+                // router.push('/protected');
             } else {
                 setNotification({ type: 'error', message: result.message || 'Invalid API key' });
             }
