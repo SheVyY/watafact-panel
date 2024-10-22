@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '../../../lib/supabaseClient';
+import { summarizeReadme } from './chain';
 
 export async function POST(request) {
     const { githubUrl } = await request.json();
@@ -27,12 +28,12 @@ export async function POST(request) {
         }
 
         const readmeContent = await getReadmeContent(githubUrl);
-        console.log(readmeContent);
+        const summary = await summarizeReadme(readmeContent);
 
-        // Update the response to indicate that summarization is implemented
         return NextResponse.json({ 
-            message: 'GitHub README content retrieved successfully',
-            content: readmeContent
+            message: 'GitHub README summarized successfully',
+            summary: summary.summary,
+            coolFacts: summary.cool_facts
         }, { status: 200 });
 
     } catch (error) {
