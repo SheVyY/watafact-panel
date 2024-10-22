@@ -1,6 +1,6 @@
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { PromptTemplate } from "langchain/prompts";
-import { RunnableSequence } from "langchain/schema/runnable";
+import { ChatOpenAI } from "@langchain/openai";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { RunnableSequence } from "@langchain/core/runnables";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
@@ -18,7 +18,7 @@ const functionSchema = {
 export const summarizeReadme = async (readmeContent) => {
   const model = new ChatOpenAI({ temperature: 0 });
 
-  const promptTemplate = PromptTemplate.fromTemplate(
+  const promptTemplate = ChatPromptTemplate.fromTemplate(
     "Summarize this GitHub repository from the following README file content:\n\n{readmeContent}"
   );
 
